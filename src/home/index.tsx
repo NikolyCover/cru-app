@@ -43,7 +43,11 @@ export const HomeScreen = () => {
         Icon={SelectIcon as unknown as ReactNode} //react-native-picker-select typescript error
       />
       <View style={styles.cardsCotainer}>
-        <Card title='Proteína' />
+        <Card title='Proteínas' />
+        <Card title='Acompanhamentos' />
+        <Card title='Salada' />
+        <Card title='Sobremesa' />
+        <Card title='Sucos' />
       </View>
     </SafeAreaView>
   )

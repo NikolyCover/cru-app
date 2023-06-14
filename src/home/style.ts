@@ -15,9 +15,11 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     color: theme.palette.neutral.white,
     marginVertical: 24,
+    fontWeight: '500'
   },
   cardsCotainer: {
-    marginTop: 16
+    marginTop: 16,
+    gap: 24
   }
 })
 

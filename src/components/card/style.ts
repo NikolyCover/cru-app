@@ -9,6 +9,11 @@ export const styles = StyleSheet.create({
     },
     title: {
         color: theme.palette.neutral.white,
-        fontSize: 16
+        fontSize: 16,
+        marginBottom: 8,
+        fontWeight: '700'
+    },
+    dishContainer: {
+        gap: 4
     }
 })
