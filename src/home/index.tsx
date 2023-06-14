@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { ReactNode, useState } from 'react'
 import { Image, View, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { styles, pickerSelectStyles } from './style'
@@ -40,7 +40,7 @@ export const HomeScreen = () => {
         items={WEEK_DAYS}
         style={pickerSelectStyles}
         placeholder={{}}
-        Icon={SelectIcon}
+        Icon={SelectIcon as unknown as ReactNode} //react-native-picker-select typescript error
       />
       <View style={styles.cardsCotainer}>
         <Card title='Proteína' />
