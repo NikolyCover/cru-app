@@ -1,11 +1,10 @@
-import { ReactNode, useState } from 'react'
+import { useState } from 'react'
 import { Image, View, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { styles, pickerSelectStyles } from './style'
-import RNPickerSelect from 'react-native-picker-select'
-import { Entypo } from '@expo/vector-icons'
+import { styles } from './style'
 import { Card } from '../components/card'
-import { theme } from '../../theme'
+import { Select } from '../components/select'
+import { Warnings } from '../components/warnings'
 
 const logo = require('../../assets/logo.png')
 
@@ -19,10 +18,6 @@ const WEEK_DAYS = [
   { value: 6, label: 'Sábado' },
 ]
 
-const SelectIcon = () => (
-  <Entypo name='select-arrows' size={16} color={theme.palette.blue.light}/>
-)
-
 export const HomeScreen = () => {
   const [day, setDay] = useState(1)
 
@@ -34,14 +29,7 @@ export const HomeScreen = () => {
       <Text style={styles.text}>
         Cardápio da semana iniciada em 19/05/2023
       </Text>
-      <RNPickerSelect
-        value={day}
-        onValueChange={setDay}
-        items={WEEK_DAYS}
-        style={pickerSelectStyles}
-        placeholder={{}}
-        Icon={SelectIcon as unknown as ReactNode} //react-native-picker-select typescript error
-      />
+      <Select items={WEEK_DAYS} value={day} setValue={setDay} />
       <View style={styles.cardsCotainer}>
         <Card title='Proteínas' />
         <Card title='Acompanhamentos' />
@@ -49,6 +37,7 @@ export const HomeScreen = () => {
         <Card title='Sobremesa' />
         <Card title='Sucos' />
       </View>
+      <Warnings/>
     </SafeAreaView>
   )
 }
