@@ -5,7 +5,7 @@ import { styles, pickerSelectStyles } from './style'
 import RNPickerSelect from 'react-native-picker-select'
 import { Entypo } from '@expo/vector-icons'
 import { Card } from '../components/card'
-import { theme } from '../theme'
+import { theme } from '../../theme'
 
 const logo = require('../../assets/logo.png')
 
