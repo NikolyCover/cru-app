@@ -4,15 +4,23 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#0C5C75',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  imageContainer: {
-    flex: 1,
-    paddingTop: 58,
+    padding: 16
   },
   image: {
     width: 64,
     height: 40,
   },
+  text: {
+    color: '#FFF',
+    marginVertical: 24,
+  },
+  tabContainer: {
+    width: 200
+  },
+  indicator: {
+    backgroundColor: '#FFF'
+  },
+  tabTitle: {
+    color: '#FFF'
+  }
 })

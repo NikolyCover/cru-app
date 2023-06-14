@@ -1,8 +1,10 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
 import { HomeScreen } from './src/home'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 export default function App() {
   return (
-    <HomeScreen/>
+    <SafeAreaProvider>
+      <HomeScreen />
+    </SafeAreaProvider>
   )
 }
