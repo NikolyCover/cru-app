@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { styles, pickerSelectStyles } from './style'
 import RNPickerSelect from 'react-native-picker-select'
 import { Entypo } from '@expo/vector-icons'
+import { Card } from '../components/card'
 
 const logo = require('../../assets/logo.png')
 
@@ -40,6 +41,9 @@ export const HomeScreen = () => {
         placeholder={{}}
         Icon={SelectIcon}
       />
+      <View style={styles.cardsCotainer}>
+        <Card title='Proteína' />
+      </View>
     </SafeAreaView>
   )
 }

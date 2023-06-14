@@ -15,6 +15,9 @@ export const styles = StyleSheet.create({
     color: '#FFF',
     marginVertical: 24,
   },
+  cardsCotainer: {
+    marginTop: 16
+  }
 })
 
 export const pickerSelectStyles = StyleSheet.create({
