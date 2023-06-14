@@ -1,11 +1,28 @@
 import { useState } from 'react'
 import { Image, View, Text } from 'react-native'
-import { styles } from './style'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { styles, pickerSelectStyles } from './style'
+import RNPickerSelect from 'react-native-picker-select'
+import { Entypo } from '@expo/vector-icons'
 
 const logo = require('../../assets/logo.png')
 
+const WEEK_DAYS = [
+  { value: 0, label: 'Domingo' },
+  { value: 1, label: 'Segunda-feira' },
+  { value: 2, label: 'Terça-feira' },
+  { value: 3, label: 'Quarta-feira' },
+  { value: 4, label: 'Quinta-feira' },
+  { value: 5, label: 'Sexta-feira' },
+  { value: 6, label: 'Sábado' },
+]
+
+const SelectIcon = () => (
+  <Entypo name='select-arrows' size={16} color='#C9E7F0'/>
+)
+
 export const HomeScreen = () => {
+  const [day, setDay] = useState(1)
 
   return (
     <SafeAreaView style={styles.container}>
@@ -13,8 +30,16 @@ export const HomeScreen = () => {
         <Image source={logo} style={styles.image} />
       </View>
       <Text style={styles.text}>
-        Cardápio a partir do dia 19/05/2023 (segunda-feira)
+        Cardápio da semana iniciada em 19/05/2023
       </Text>
+      <RNPickerSelect
+        value={day}
+        onValueChange={setDay}
+        items={WEEK_DAYS}
+        style={pickerSelectStyles}
+        placeholder={{}}
+        Icon={SelectIcon}
+      />
     </SafeAreaView>
   )
 }
