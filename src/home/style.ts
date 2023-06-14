@@ -1,9 +1,10 @@
 import { StyleSheet } from 'react-native'
+import { theme } from '../theme'
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0C5C75',
+    backgroundColor: theme.palette.blue.dark,
     padding: 16,
   },
   image: {
@@ -12,7 +13,7 @@ export const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    color: '#FFF',
+    color: theme.palette.neutral.white,
     marginVertical: 24,
   },
   cardsCotainer: {
@@ -26,8 +27,8 @@ export const pickerSelectStyles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 16,
     borderRadius: 8,
-    color: '#FFF',
-    backgroundColor: '#289FC3',
+    color: theme.palette.neutral.white,
+    backgroundColor: theme.palette.blue.main,
     paddingRight: 30, // to ensure the text is never behind the icon
   },
   inputAndroid: {
@@ -35,8 +36,8 @@ export const pickerSelectStyles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 16,
     borderRadius: 8,
-    color: '#FFF',
-    backgroundColor: '#289FC3',
+    color: theme.palette.neutral.white,
+    backgroundColor: theme.palette.blue.main,
     paddingRight: 30, // to ensure the text is never behind the icon
   },
   iconContainer: {

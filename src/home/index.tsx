@@ -5,6 +5,7 @@ import { styles, pickerSelectStyles } from './style'
 import RNPickerSelect from 'react-native-picker-select'
 import { Entypo } from '@expo/vector-icons'
 import { Card } from '../components/card'
+import { theme } from '../theme'
 
 const logo = require('../../assets/logo.png')
 
@@ -19,7 +20,7 @@ const WEEK_DAYS = [
 ]
 
 const SelectIcon = () => (
-  <Entypo name='select-arrows' size={16} color='#C9E7F0'/>
+  <Entypo name='select-arrows' size={16} color={theme.palette.blue.light}/>
 )
 
 export const HomeScreen = () => {
