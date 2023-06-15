@@ -1,6 +1,6 @@
 import { Category } from '../types/category'
 
-export interface IDish {
+export interface Dish {
   id: number
   name: string
   description?: string

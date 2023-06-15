@@ -1,5 +1,5 @@
 import { Image, Text, View } from 'react-native'
-import { IDish } from '../../interfaces/dish'
+import { Dish as IDish } from '../../interfaces/dish'
 import { styles } from './style'
 
 const milk = require('../../../assets/milk.png')

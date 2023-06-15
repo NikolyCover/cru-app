@@ -1,7 +1,7 @@
 import { Text, View } from 'react-native'
 import { Dish } from '../dish'
 import { styles } from './style'
-import { IDish } from '../../interfaces/dish'
+import { Dish as IDish } from '../../interfaces/dish'
 
 interface Props {
   title: string,

@@ -1,11 +1,15 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Image, View, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { styles } from './style'
 import { Card } from '../components/card'
 import { Select } from '../components/select'
 import { Warnings } from '../components/warnings'
-import { IDish } from '../interfaces/dish'
+import { Dish } from '../interfaces/dish'
+import { useRecoilValue } from 'recoil'
+import { weekMenuAtom, weekMenuSelector } from '../contexts/week-menu'
+import { getCurrentWeekMenu } from '../services/week-menu'
+import { AxiosError } from 'axios'
 
 const logo = require('../../assets/logo.png')
 
@@ -19,68 +23,83 @@ const WEEK_DAYS = [
   { value: 6, label: 'Sábado' },
 ]
 
-const DISHES: IDish[] = [
+const DISHES: Dish[] = [
   {
     id: 1,
-    name: "Dish 1",
-    description: "This is dish 1",
+    name: 'Dish 1',
+    description: 'This is dish 1',
     contains_milk: false,
     contains_meat: true,
-    category: "PROTEIN"
+    category: 'PROTEIN',
   },
   {
     id: 2,
-    name: "Dish 2",
-    description: "This is dish 2",
+    name: 'Dish 2',
+    description: 'This is dish 2',
     contains_milk: false,
     contains_meat: false,
-    category: "SIDE_DISH"
+    category: 'SIDE_DISH',
   },
   {
     id: 3,
-    name: "Dish 3",
+    name: 'Dish 3',
     contains_milk: false,
     contains_meat: false,
-    category: "SALAD"
+    category: 'SALAD',
   },
   {
     id: 4,
-    name: "Dish 4",
-    description: "This is dish 4",
+    name: 'Dish 4',
+    description: 'This is dish 4',
     contains_milk: true,
     contains_meat: true,
-    category: "DESSERT"
+    category: 'DESSERT',
   },
   {
     id: 5,
-    name: "Dish 5",
-    description: "This is dish 5",
+    name: 'Dish 5',
+    description: 'This is dish 5',
     contains_milk: true,
     contains_meat: false,
-    category: "DRINK"
-  }
+    category: 'DRINK',
+  },
 ]
 
 export const HomeScreen = () => {
   const [day, setDay] = useState(1)
+
+  const currentWeekMenu = useRecoilValue(weekMenuSelector)
+
+  console.log('menu: ', currentWeekMenu)
+
+  useEffect(() => {
+    const fetchWeekMenu = async () => {
+      try {
+        const response = await getCurrentWeekMenu()
+        console.log('menu response: ', response.data)
+      } catch (error) {
+        console.log('Error fetching week menu:', error as AxiosError)
+      }
+    }
+
+    fetchWeekMenu()
+  }, [])
 
   return (
     <SafeAreaView style={styles.container}>
       <View>
         <Image source={logo} style={styles.image} />
       </View>
-      <Text style={styles.text}>
-        Cardápio da semana iniciada em 19/05/2023
-      </Text>
+      <Text style={styles.text}>Cardápio da semana iniciada em 19/05/2023</Text>
       <Select items={WEEK_DAYS} value={day} setValue={setDay} />
       <View style={styles.cardsCotainer}>
-        <Card title='Proteínas' dishes={DISHES} />
-        <Card title='Acompanhamentos' dishes={DISHES} />
-        <Card title='Salada' dishes={DISHES} />
-        <Card title='Sobremesa' dishes={DISHES} />
-        <Card title='Sucos' dishes={DISHES} />
+        <Card title="Proteínas" dishes={DISHES} />
+        <Card title="Acompanhamentos" dishes={DISHES} />
+        <Card title="Salada" dishes={DISHES} />
+        <Card title="Sobremesa" dishes={DISHES} />
+        <Card title="Sucos" dishes={DISHES} />
       </View>
-      <Warnings/>
+      <Warnings />
     </SafeAreaView>
   )
 }
