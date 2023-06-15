@@ -8,18 +8,9 @@ import { Warnings } from '../components/warnings'
 import { getCurrentWeekMenu } from '../services/week-menu'
 import { AxiosError } from 'axios'
 import { Week } from '../interfaces/week'
+import { WEEK_DAYS } from '../constants/week-days'
 
 const logo = require('../../assets/logo.png')
-
-const WEEK_DAYS = [
-  { value: 0, label: 'Domingo' },
-  { value: 1, label: 'Segunda-feira' },
-  { value: 2, label: 'Terça-feira' },
-  { value: 3, label: 'Quarta-feira' },
-  { value: 4, label: 'Quinta-feira' },
-  { value: 5, label: 'Sexta-feira' },
-  { value: 6, label: 'Sábado' },
-]
 
 export const HomeScreen = () => {
   const [day, setDay] = useState(1)
@@ -43,19 +34,35 @@ export const HomeScreen = () => {
     fechWeek()
   }, [])
 
-  const proteins = week?.menus[day].organizedDishes.find((organizedDishes => organizedDishes.category === 'PROTEIN'))?.dishes
-  const sideDishes = week?.menus[day].organizedDishes.find((organizedDishes => organizedDishes.category === 'SIDE_DISH'))?.dishes
-  const salads = week?.menus[day].organizedDishes.find((organizedDishes => organizedDishes.category === 'SALAD'))?.dishes
-  const desserts = week?.menus[day].organizedDishes.find((organizedDishes => organizedDishes.category === 'DESSERT'))?.dishes
-  const drinks = week?.menus[day].organizedDishes.find((organizedDishes => organizedDishes.category === 'DRINK'))?.dishes
+  const availableWeekDays = WEEK_DAYS.filter(
+    (weekDay) => week?.menus[weekDay.value],
+  )
+
+  const proteins = week?.menus[day]?.organizedDishes.find(
+    (organizedDishes) => organizedDishes.category === 'PROTEIN',
+  )?.dishes
+  const sideDishes = week?.menus[day]?.organizedDishes.find(
+    (organizedDishes) => organizedDishes.category === 'SIDE_DISH',
+  )?.dishes
+  const salads = week?.menus[day]?.organizedDishes.find(
+    (organizedDishes) => organizedDishes.category === 'SALAD',
+  )?.dishes
+  const desserts = week?.menus[day]?.organizedDishes.find(
+    (organizedDishes) => organizedDishes.category === 'DESSERT',
+  )?.dishes
+  const drinks = week?.menus[day]?.organizedDishes.find(
+    (organizedDishes) => organizedDishes.category === 'DRINK',
+  )?.dishes
 
   return (
     <SafeAreaView style={styles.container}>
       <View>
         <Image source={logo} style={styles.image} />
       </View>
-      <Text style={styles.text}>Cardápio da semana iniciada em {week?.sunday.toString()}</Text>
-      <Select items={WEEK_DAYS} value={day} setValue={setDay} />
+      <Text style={styles.text}>
+        Cardápio da semana iniciada em {week?.sunday.toString()}
+      </Text>
+      <Select items={availableWeekDays} value={day} setValue={setDay} />
       <View style={styles.cardsCotainer}>
         {proteins && <Card title="Proteínas" dishes={proteins} />}
         {sideDishes && <Card title="Acompanhamentos" dishes={sideDishes} />}
