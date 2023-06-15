@@ -1,15 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Image, View, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { styles } from './style'
 import { Card } from '../components/card'
 import { Select } from '../components/select'
 import { Warnings } from '../components/warnings'
-import { Dish } from '../interfaces/dish'
-import { useRecoilValue } from 'recoil'
-import { weekMenuAtom, weekMenuSelector } from '../contexts/week-menu'
 import { getCurrentWeekMenu } from '../services/week-menu'
 import { AxiosError } from 'axios'
+import { Week } from '../interfaces/week'
 
 const logo = require('../../assets/logo.png')
 
@@ -23,81 +21,47 @@ const WEEK_DAYS = [
   { value: 6, label: 'Sábado' },
 ]
 
-const DISHES: Dish[] = [
-  {
-    id: 1,
-    name: 'Dish 1',
-    description: 'This is dish 1',
-    contains_milk: false,
-    contains_meat: true,
-    category: 'PROTEIN',
-  },
-  {
-    id: 2,
-    name: 'Dish 2',
-    description: 'This is dish 2',
-    contains_milk: false,
-    contains_meat: false,
-    category: 'SIDE_DISH',
-  },
-  {
-    id: 3,
-    name: 'Dish 3',
-    contains_milk: false,
-    contains_meat: false,
-    category: 'SALAD',
-  },
-  {
-    id: 4,
-    name: 'Dish 4',
-    description: 'This is dish 4',
-    contains_milk: true,
-    contains_meat: true,
-    category: 'DESSERT',
-  },
-  {
-    id: 5,
-    name: 'Dish 5',
-    description: 'This is dish 5',
-    contains_milk: true,
-    contains_meat: false,
-    category: 'DRINK',
-  },
-]
-
 export const HomeScreen = () => {
   const [day, setDay] = useState(1)
+  const [week, setWeek] = useState<Week>()
 
-  const currentWeekMenu = useRecoilValue(weekMenuSelector)
+  const weekPromisse = useMemo(async () => {
+    try {
+      const response = await getCurrentWeekMenu()
 
-  console.log('menu: ', currentWeekMenu)
+      return response.data
+    } catch (error) {
+      console.log('Error fetching week menu: ', error as AxiosError)
+    }
+  }, [])
 
   useEffect(() => {
-    const fetchWeekMenu = async () => {
-      try {
-        const response = await getCurrentWeekMenu()
-        console.log('menu response: ', response.data)
-      } catch (error) {
-        console.log('Error fetching week menu:', error as AxiosError)
-      }
+    const fechWeek = async () => {
+      setWeek(await weekPromisse)
     }
 
-    fetchWeekMenu()
+    fechWeek()
   }, [])
+
+  const proteins = week?.menus[day].organizedDishes.find((organizedDishes => organizedDishes.category === 'PROTEIN'))?.dishes
+  const sideDishes = week?.menus[day].organizedDishes.find((organizedDishes => organizedDishes.category === 'SIDE_DISH'))?.dishes
+  const salads = week?.menus[day].organizedDishes.find((organizedDishes => organizedDishes.category === 'SALAD'))?.dishes
+  const desserts = week?.menus[day].organizedDishes.find((organizedDishes => organizedDishes.category === 'DESSERT'))?.dishes
+  const drinks = week?.menus[day].organizedDishes.find((organizedDishes => organizedDishes.category === 'DRINK'))?.dishes
 
   return (
     <SafeAreaView style={styles.container}>
       <View>
         <Image source={logo} style={styles.image} />
       </View>
-      <Text style={styles.text}>Cardápio da semana iniciada em 19/05/2023</Text>
+      <Text style={styles.text}>Cardápio da semana iniciada em {week?.sunday.toString()}</Text>
       <Select items={WEEK_DAYS} value={day} setValue={setDay} />
       <View style={styles.cardsCotainer}>
-        <Card title="Proteínas" dishes={DISHES} />
-        <Card title="Acompanhamentos" dishes={DISHES} />
-        <Card title="Salada" dishes={DISHES} />
-        <Card title="Sobremesa" dishes={DISHES} />
-        <Card title="Sucos" dishes={DISHES} />
+        {proteins && <Card title="Proteínas" dishes={proteins} />}
+        {sideDishes && <Card title="Acompanhamentos" dishes={sideDishes} />}
+        {salads && <Card title="Salada" dishes={salads} />}
+        {desserts && <Card title="Sobremesa" dishes={desserts} />}
+        {drinks && <Card title="Sucos" dishes={drinks} />}
       </View>
       <Warnings />
     </SafeAreaView>
