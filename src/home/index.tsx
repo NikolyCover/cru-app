@@ -9,6 +9,8 @@ import { getCurrentWeekMenu } from '../services/week-menu'
 import { AxiosError } from 'axios'
 import { Week } from '../interfaces/week'
 import { WEEK_DAYS } from '../constants/week-days'
+import { getDishesByCategory } from '../utils/get-dishes-by-category'
+import { Error } from '../components/error'
 
 const logo = require('../../assets/logo.png')
 
@@ -16,43 +18,33 @@ export const HomeScreen = () => {
   const [day, setDay] = useState(1)
   const [week, setWeek] = useState<Week>()
 
-  const weekPromisse = useMemo(async () => {
-    try {
-      const response = await getCurrentWeekMenu()
-
-      return response.data
-    } catch (error) {
-      console.log('Error fetching week menu: ', error as AxiosError)
-    }
-  }, [])
-
   useEffect(() => {
-    const fechWeek = async () => {
-      setWeek(await weekPromisse)
-    }
-
-    fechWeek()
+    (async () => {
+      try {
+        const response = await getCurrentWeekMenu()
+        setWeek(response.data)
+  
+      } catch (error) {
+        console.log('Error fetching week menu: ', error as AxiosError)
+      }
+    })()
   }, [])
+
+  if(!week) {
+    return (
+      <Error />
+    )
+  }
 
   const availableWeekDays = WEEK_DAYS.filter(
     (weekDay) => week?.menus[weekDay.value],
   )
 
-  const proteins = week?.menus[day]?.organizedDishes.find(
-    (organizedDishes) => organizedDishes.category === 'PROTEIN',
-  )?.dishes
-  const sideDishes = week?.menus[day]?.organizedDishes.find(
-    (organizedDishes) => organizedDishes.category === 'SIDE_DISH',
-  )?.dishes
-  const salads = week?.menus[day]?.organizedDishes.find(
-    (organizedDishes) => organizedDishes.category === 'SALAD',
-  )?.dishes
-  const desserts = week?.menus[day]?.organizedDishes.find(
-    (organizedDishes) => organizedDishes.category === 'DESSERT',
-  )?.dishes
-  const drinks = week?.menus[day]?.organizedDishes.find(
-    (organizedDishes) => organizedDishes.category === 'DRINK',
-  )?.dishes
+  const proteins = getDishesByCategory(week, day, 'PROTEIN')
+  const sideDishes = getDishesByCategory(week, day, 'SIDE_DISH')
+  const salads = getDishesByCategory(week, day, 'SALAD')
+  const desserts = getDishesByCategory(week, day, 'DESSERT')
+  const drinks = getDishesByCategory(week, day, 'DRINK')
 
   return (
     <SafeAreaView style={styles.container}>
