@@ -11,6 +11,7 @@ import { Week } from '../interfaces/week'
 import { WEEK_DAYS } from '../constants/week-days'
 import { getDishesByCategory } from '../utils/get-dishes-by-category'
 import { Error } from '../components/error'
+import { formatDate } from '../utils/format-date'
 
 const logo = require('../../assets/logo.png')
 
@@ -19,21 +20,18 @@ export const HomeScreen = () => {
   const [week, setWeek] = useState<Week>()
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       try {
         const response = await getCurrentWeekMenu()
         setWeek(response.data)
-  
       } catch (error) {
         console.log('Error fetching week menu: ', error as AxiosError)
       }
     })()
   }, [])
 
-  if(!week) {
-    return (
-      <Error />
-    )
+  if (!week) {
+    return <Error />
   }
 
   const availableWeekDays = WEEK_DAYS.filter(
@@ -52,7 +50,7 @@ export const HomeScreen = () => {
         <Image source={logo} style={styles.image} />
       </View>
       <Text style={styles.text}>
-        Cardápio da semana iniciada em {week?.sunday.toString()}
+        Cardápio da semana iniciada em: {formatDate(week.sunday)}
       </Text>
       <Select items={availableWeekDays} value={day} setValue={setDay} />
       <View style={styles.cardsCotainer}>
