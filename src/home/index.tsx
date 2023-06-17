@@ -24,9 +24,8 @@ export const HomeScreen = () => {
   useEffect(() => {
     ;(async () => {
       setWeek(await weekPromisse())
-
-      const newWeeks = await weeksPromisse()
       
+      const newWeeks = await weeksPromisse()
       //get only the weeks that have at least one menu not null
       const availableWeeks = newWeeks?.filter((week) => week.menus?.find((menu) => menu))
       
@@ -80,13 +79,13 @@ export const HomeScreen = () => {
         <Image source={logo} style={styles.image} />
       </View>
       <Text style={styles.text}>
-        Cardápio da semana iniciada em: {formatDate(week.sunday)}
+        Confira abaixo o cardápio semanal do restaurante universitário!
       </Text>
       <View style={styles.selectsContainer}>
-        {availableWeekDays && day != -1 && (
-          <Select items={availableWeekDays} value={day} setValue={setDay} />
+        <Select items={sundays} value={week.id} setValue={changeWeek} label='Semana iniciada em:' />
+        {availableWeekDays && (
+          <Select items={availableWeekDays} value={day} setValue={setDay} label='Dia da semana:' />
         )}
-        <Select items={sundays} value={week.id} setValue={changeWeek} />
       </View>
       <View style={styles.cardsCotainer}>
         {proteins && <Card title="Proteínas" dishes={proteins} />}

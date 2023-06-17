@@ -11,8 +11,8 @@ export const styles = StyleSheet.create({
     },
     title: {
         color: theme.palette.neutral.white,
-        fontSize: 24,
-        fontWeight: '500',
+        fontSize: 18,
+        fontWeight: '700',
         marginBottom: 24
     },
     card: {
@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
     label: {
         color: theme.palette.neutral.white,
         fontSize: 14,
-        fontWeight: '600'
+        fontWeight: '500'
     },
     obs: {
         color: theme.palette.neutral.white,

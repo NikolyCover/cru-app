@@ -24,4 +24,10 @@ export const styles = StyleSheet.create({
     top: 8,
     right: 8,
   },
+  text: {
+    color: theme.palette.neutral.white,
+    fontSize: 16,
+    marginBottom: 8,
+    fontWeight: '500'
+  }
 })

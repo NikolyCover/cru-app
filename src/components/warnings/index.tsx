@@ -13,11 +13,11 @@ export const Warnings: React.FC<Props> = ({}) => {
       <View style={styles.cardsContainer}>
         <View style={styles.card} >
           <Image source={milk} style={styles.image} />
-          <Text style={styles.label} >Contém leite</Text>
+          <Text style={styles.label}>Contém leite</Text>
         </View>
         <View style={styles.card} >
           <Image source={meat} style={styles.image} />
-          <Text style={styles.label} >Contém carne</Text>
+          <Text style={styles.label}>Contém carne</Text>
         </View>
       </View>
       <Text style={styles.obs} >Obs: Este cardápio pode sofrer alterações de última hora</Text>

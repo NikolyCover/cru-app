@@ -10,7 +10,6 @@ export const getWeek = (id: number): Promise<AxiosResponse<Week>> => (
     cruAPI.get<Week>(`/weeks/${id}`)
 )
 
-//this onde comes without menus
 export const getAllWeeks = (): Promise<AxiosResponse<Week[]>> => (
     cruAPI.get<Week[]>('/weeks')
 )
