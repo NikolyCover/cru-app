@@ -19,5 +19,9 @@ export const styles = StyleSheet.create({
   cardsCotainer: {
     marginTop: 16,
     gap: 24
+  },
+  selectsContainer: {
+    marginBottom: 16,
+    gap: 8
   }
 })
