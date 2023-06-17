@@ -48,7 +48,7 @@ export const HomeScreen = () => {
   }, [availableWeekDays])
 
   if (!week || !weeks || day == -1) {
-    return <Error />
+    return null
   }
 
   const changeWeek: Dispatch<SetStateAction<number>> = async (
