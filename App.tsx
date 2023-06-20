@@ -1,5 +1,5 @@
 import { ScrollView, Text } from 'react-native'
-import { HomeScreen } from './src/home'
+import { HomeScreen } from './src/pages/home'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { theme } from './theme'
 import { RecoilRoot } from 'recoil'

@@ -2,16 +2,17 @@ import { useMemo, useState } from 'react'
 import { Image, View, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { styles } from './style'
-import { Card } from '../components/card'
-import { Select } from '../components/select'
-import { Warnings } from '../components/warnings'
-import { getDishesByCategory } from '../utils/get-dishes-by-category'
-import { formatDate } from '../utils/format-date'
-import { availableWeekDaysSelector, dayAtom, weekAtom, weeksAtom } from '../contexts/week'
+import { Card } from '../../components/card'
+import { Select } from '../../components/select'
+import { Warnings } from '../../components/warnings'
+import { getDishesByCategory } from '../../utils/get-dishes-by-category'
+import { formatDate } from '../../utils/format-date'
+import { availableWeekDaysSelector, dayAtom, weekAtom, weeksAtom } from '../../contexts/week'
 import { Item } from 'react-native-picker-select'
 import { useRecoilState, useRecoilValue } from 'recoil'
+import { NoMenu } from '../no-menu'
 
-const logo = require('../../assets/logo.png')
+const logo = require('../../../assets/logo.png')
 
 export const HomeScreen = () => {
   const weeks = useRecoilValue(weeksAtom)
@@ -21,7 +22,7 @@ export const HomeScreen = () => {
   const [day, setDay] = useRecoilState(dayAtom(weekId))
 
   if (!week || !weeks) {
-    return null
+    return <NoMenu/>
   }
 
   const sundays: Item[] = useMemo(() => weeks?.map((week) => ({

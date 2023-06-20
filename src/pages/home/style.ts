@@ -1,14 +1,10 @@
 import { StyleSheet } from 'react-native'
-import { theme } from '../../theme'
+import { theme } from '../../../theme'
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-  },
-  image: {
-    width: 64,
-    height: 40,
   },
   text: {
     fontSize: 18,
@@ -24,5 +20,9 @@ export const styles = StyleSheet.create({
     //marginTop: 24,
     marginBottom: 16,
     gap: 16
+  },
+  image: {
+    width: 64,
+    height: 40,
   }
 })
