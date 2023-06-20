@@ -1,71 +1,33 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Image, View, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { styles } from './style'
 import { Card } from '../components/card'
 import { Select } from '../components/select'
 import { Warnings } from '../components/warnings'
-import { Week } from '../interfaces/week'
-import { WEEK_DAYS } from '../constants/week-days'
 import { getDishesByCategory } from '../utils/get-dishes-by-category'
-import { Error } from '../components/error'
 import { formatDate } from '../utils/format-date'
-import { weekPromisse, weeksPromisse } from '../contexts/week'
+import { availableWeekDaysSelector, dayAtom, weekAtom, weeksAtom } from '../contexts/week'
 import { Item } from 'react-native-picker-select'
+import { useRecoilState, useRecoilValue } from 'recoil'
 
 const logo = require('../../assets/logo.png')
 
 export const HomeScreen = () => {
-  const [week, setWeek] = useState<Week>()
-  const [weeks, setWeeks] = useState<Week[]>()
-  const [day, setDay] = useState<number>(-1)
-  const [availableWeekDays, setAvailableWeekDays] = useState<Item[]>()
+  const weeks = useRecoilValue(weeksAtom)
+  const [weekId, setWeekId] = useState(-1)
+  const week = useRecoilValue(weekAtom(weekId))
+  const availableWeekDays = useRecoilValue(availableWeekDaysSelector(weekId))
+  const [day, setDay] = useRecoilState(dayAtom(weekId))
 
-  useEffect(() => {
-    ;(async () => {
-      setWeek(await weekPromisse())
-      
-      const newWeeks = await weeksPromisse()
-      //get only the weeks that have at least one menu not null
-      const availableWeeks = newWeeks?.filter((week) => week.menus?.find((menu) => menu))
-      
-      setWeeks(availableWeeks)
-    })()
-  }, [])
-
-  useEffect(() => {
-    setAvailableWeekDays(
-      WEEK_DAYS.filter((weekDay) => week?.menus[weekDay.value]),
-    )
-  }, [week])
-
-  useEffect(() => {
-    setDay(
-      availableWeekDays && availableWeekDays.length > 0
-        ? availableWeekDays[0].value
-        : -1,
-    )
-  }, [availableWeekDays])
-
-  if (!week || !weeks || day == -1) {
+  if (!week || !weeks) {
     return null
   }
 
-  const changeWeek: Dispatch<SetStateAction<number>> = async (
-    value: SetStateAction<number>,
-  ) => {
-    if (typeof value === 'function') {
-      const newWeekId = value(week.id)
-      setWeek(await weekPromisse(newWeekId))
-    } else {
-      setWeek(await weekPromisse(value))
-    }
-  }
-
-  const sundays: Item[] = weeks?.map((week) => ({
+  const sundays: Item[] = useMemo(() => weeks?.map((week) => ({
     value: week.id,
     label: formatDate(week.sunday),
-  }))
+  })), [weeks])
 
   const proteins = getDishesByCategory(week, day, 'PROTEIN')
   const sideDishes = getDishesByCategory(week, day, 'SIDE_DISH')
@@ -82,7 +44,7 @@ export const HomeScreen = () => {
         Confira abaixo o cardápio semanal do restaurante universitário!
       </Text>
       <View style={styles.selectsContainer}>
-        <Select items={sundays} value={week.id} setValue={changeWeek} label='Semana iniciada em:' />
+        <Select items={sundays} value={week.id} setValue={setWeekId} label='Semana iniciada em:' />
         {availableWeekDays && (
           <Select items={availableWeekDays} value={day} setValue={setDay} label='Dia da semana:' />
         )}
