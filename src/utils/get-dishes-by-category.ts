@@ -1,10 +1,7 @@
-import { Week } from '../interfaces/week'
+import { Menu } from '../interfaces/menu'
 import { Category } from '../types/category'
 
-export const getDishesByCategory = (
-  week: Week,
-  day: number,
-  category: Category,
-) =>
-  week?.menus[day]?.organizedDishes?.find(
-    (organizedDishes) => organizedDishes.category === category)?.dishes
+export const getDishesByCategory = (menu: Menu, category: Category) =>
+  menu.organizedDishes.find(
+    (organizedDishes) => organizedDishes.category === category,
+  )?.dishes

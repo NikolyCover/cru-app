@@ -7,34 +7,33 @@ import { Select } from '../../components/select'
 import { Warnings } from '../../components/warnings'
 import { getDishesByCategory } from '../../utils/get-dishes-by-category'
 import { formatDate } from '../../utils/format-date'
-import { availableWeekDaysSelector, dayAtom, weekAtom, weeksAtom } from '../../contexts/week'
 import { Item } from 'react-native-picker-select'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { useRecoilValue } from 'recoil'
 import { NoMenu } from '../no-menu'
+import { menuAtom, menusAtom } from '../../contexts/menu'
+
 
 const logo = require('../../../assets/logo.png')
 
 export const HomeScreen = () => {
-  const weeks = useRecoilValue(weeksAtom)
-  const [weekId, setWeekId] = useState(-1)
-  const week = useRecoilValue(weekAtom(weekId))
-  const availableWeekDays = useRecoilValue(availableWeekDaysSelector(weekId))
-  const [day, setDay] = useRecoilState(dayAtom(weekId))
+  const [menuId, setMenuId] = useState(-1)
+  const menu = useRecoilValue(menuAtom(menuId))
+  const menus = useRecoilValue(menusAtom)
 
-  if (!week || !weeks) {
+  const menuOptions: Item[] = menus.map((menu) => ({
+    label: formatDate(menu.date),
+    value: menu.id
+  }))
+
+  if (!menu) {
     return <NoMenu/>
   }
 
-  const sundays: Item[] = useMemo(() => weeks?.map((week) => ({
-    value: week.id,
-    label: formatDate(week.sunday),
-  })), [weeks])
-
-  const proteins = getDishesByCategory(week, day, 'PROTEIN')
-  const sideDishes = getDishesByCategory(week, day, 'SIDE_DISH')
-  const salads = getDishesByCategory(week, day, 'SALAD')
-  const desserts = getDishesByCategory(week, day, 'DESSERT')
-  const drinks = getDishesByCategory(week, day, 'DRINK')
+  const proteins = getDishesByCategory(menu, 'PROTEIN')
+  const sideDishes = getDishesByCategory(menu, 'SIDE_DISH')
+  const salads = getDishesByCategory(menu, 'SALAD')
+  const desserts = getDishesByCategory(menu, 'DESSERT')
+  const drinks = getDishesByCategory(menu, 'DRINK')
 
   return (
     <SafeAreaView style={styles.container}>
@@ -42,13 +41,10 @@ export const HomeScreen = () => {
         <Image source={logo} style={styles.image} />
       </View>
       <Text style={styles.text}>
-        Confira abaixo o cardápio semanal do restaurante universitário!
+        Confira abaixo o cardápio diário do restaurante universitário!
       </Text>
       <View style={styles.selectsContainer}>
-        <Select items={sundays} value={week.id} setValue={setWeekId} label='Semana iniciada em:' />
-        {availableWeekDays && (
-          <Select items={availableWeekDays} value={day} setValue={setDay} label='Dia da semana:' />
-        )}
+        <Select items={menuOptions} value={menu.id} setValue={setMenuId} label='Dia:' />
       </View>
       <View style={styles.cardsCotainer}>
         {proteins && <Card title="Proteínas" dishes={proteins} />}
