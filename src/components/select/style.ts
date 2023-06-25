@@ -19,6 +19,8 @@ export const styles = StyleSheet.create({
     color: theme.palette.neutral.white,
     backgroundColor: theme.palette.blue.main,
     paddingRight: 30, // to ensure the text is never behind the icon
+    display: 'flex',
+    alignItems:'center',
   },
   iconContainer: {
     top: 8,

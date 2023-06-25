@@ -27,6 +27,7 @@ export const Select: React.FC<Props> = ({ items, value, setValue, label }) => {
         style={styles}
         placeholder={{}}
         Icon={SelectIcon as unknown as ReactNode} //react-native-picker-select typescript error
+        useNativeAndroidPickerStyle={false}
       />
     </View>
   )

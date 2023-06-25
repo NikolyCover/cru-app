@@ -30,7 +30,7 @@ export const menuSelector = selectorFamily({
         const response =
           id === -1 ? await getCurrentMenu() : await getMenu(id)
 
-        if (!response) {
+        if (!response.data) {
             const menus = get(menusAtom)
             const last = menus?.findLast(() => true)
             return last

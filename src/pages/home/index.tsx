@@ -20,10 +20,10 @@ export const HomeScreen = () => {
   const menu = useRecoilValue(menuAtom(menuId))
   const menus = useRecoilValue(menusAtom)
 
-  const menuOptions: Item[] = menus.map((menu) => ({
+  const menuOptions: Item[] = useMemo(() => menus.map((menu) => ({
     label: formatDate(menu.date),
     value: menu.id
-  }))
+  })), [menus])
 
   if (!menu) {
     return <NoMenu/>
@@ -41,7 +41,7 @@ export const HomeScreen = () => {
         <Image source={logo} style={styles.image} />
       </View>
       <Text style={styles.text}>
-        Confira abaixo o cardápio diário do restaurante universitário!
+        Confira abaixo o cardápio do restaurante universitário!
       </Text>
       <View style={styles.selectsContainer}>
         <Select items={menuOptions} value={menu.id} setValue={setMenuId} label='Dia:' />
