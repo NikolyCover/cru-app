@@ -14,8 +14,8 @@ export const Dish: React.FC<Props> = ({ dish }) => {
     <View style={styles.container}>
       <Text style={styles.text}>{dish.name}</Text>
       <View style={styles.warningsContainer}>
-        {dish.contains_milk && <Image source={milk} style={styles.warning} />}
-        {dish.contains_meat && <Image source={meat} style={styles.warning} />}
+        {dish.containsMilk && <Image source={milk} style={styles.warning} />}
+        {dish.containsMeat && <Image source={meat} style={styles.warning} />}
       </View>
     </View>
   )

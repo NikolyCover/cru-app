@@ -35,6 +35,8 @@ export const HomeScreen = () => {
   const desserts = getDishesByCategory(menu, 'DESSERT')
   const drinks = getDishesByCategory(menu, 'DRINK')
 
+  console.log(menus[0].organizedDishes[2])
+
   return (
     <SafeAreaView style={styles.container}>
       <View>

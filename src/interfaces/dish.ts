@@ -4,7 +4,7 @@ export interface Dish {
   id: number
   name: string
   description?: string
-  contains_milk: boolean
-  contains_meat: boolean
+  containsMilk: boolean
+  containsMeat: boolean
   category: Category
 }
